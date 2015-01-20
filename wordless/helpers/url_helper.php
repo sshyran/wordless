@@ -42,6 +42,21 @@ class UrlHelper {
   }
 
   /**
+   * Returns the URL path to the spcified path in the bower_components
+   * directory.
+   *
+   * @param string $path
+   *   The path inside the bower_components folder.
+   * @return string
+   *   The complete URL path to the specified folder.
+   *
+   * @ingroup helperfunc
+   */
+  function bower_asset_url($path) {
+    return get_bloginfo('url') . "/$path";
+  }
+
+  /**
    * Returns the URL path to the specified folder in the images directory.
    *
    * @param string $path
@@ -83,6 +98,39 @@ class UrlHelper {
   function javascript_url($path) {
     if (!preg_match("/\.js$/", $path)) $path .= ".js";
     return asset_url("javascripts/$path");
+  }
+
+
+  /**
+   * Searches and returns the requested JS assets from inside
+   * bower_components directory
+   * @param  string $path Asset name w/ or w/o js extension
+   * @return string       URL of the asset
+   */
+  function bower_javascript_url($path) {
+    require_once('wp-admin/includes/file.php');
+
+    if (!preg_match("/\.js$/", $path)) $path .= ".js";
+    $bower_asset = Wordless::recursive_glob(get_home_path() . 'bower_components', $path)[0];
+    $bower_asset = str_replace(get_home_path(), '', $bower_asset);
+
+    return bower_asset_url($bower_asset);
+  }
+
+  /**
+   * Searches and returns the requested CSS assets from inside
+   * bower_components directory
+   * @param  string $path Asset name w/ or w/o js extension
+   * @return string       URL of the asset
+   */
+  function bower_stylesheet_url($path) {
+    require_once('wp-admin/includes/file.php');
+
+    if (!preg_match("/\.js$/", $path)) $path .= ".css";
+    $bower_asset = Wordless::recursive_glob(get_home_path() . 'bower_components', $path)[0];
+    $bower_asset = str_replace(get_home_path(), '', $bower_asset);
+
+    return bower_asset_url($bower_asset);
   }
 
   /**
