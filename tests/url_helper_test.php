@@ -2,6 +2,7 @@
 
 require_once('simpletest/autorun.php');
 require_once('support/mocked_bloginfo.php');
+require_once('support/mocked_get_home_path.php');
 require_once('../wordless/wordless.php');
 require_once('../wordless/helpers.php');
 
@@ -32,6 +33,20 @@ class UrlHelperTest extends UnitTestCase {
     $this->assertEqual(
       'mocked_stylesheet_directory/assets/javascripts/jquery.js',
       javascript_url("jquery.js")
+    );
+  }
+
+  function test_bower_javascript_url() {
+    $this->assertEqual(
+      'http://mocked.url/bower_components/component/js/component.js',
+      bower_javascript_url("component")
+    );
+  }
+
+  function test_bower_stylesheet_url() {
+    $this->assertEqual(
+      'http://mocked.url/bower_components/component/css/component.css',
+      bower_stylesheet_url("component")
     );
   }
 
