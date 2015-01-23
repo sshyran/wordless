@@ -53,7 +53,7 @@ class UrlHelper {
    * @ingroup helperfunc
    */
   function bower_asset_url($path) {
-    return get_bloginfo('url') . "/$path";
+    return get_bloginfo('url') . "$path";
   }
 
   /**
@@ -108,10 +108,11 @@ class UrlHelper {
    * @return string       URL of the asset
    */
   function bower_javascript_url($path) {
-    require_once('wp-admin/includes/file.php');
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
 
     if (!preg_match("/\.js$/", $path)) $path .= ".js";
-    $bower_asset = Wordless::recursive_glob(get_home_path() . 'bower_components', $path)[0];
+    $bower_asset = Wordless::recursive_glob(get_home_path() . '/bower_components', $path);
+    $bower_asset = $bower_asset[0];
     $bower_asset = str_replace(get_home_path(), '', $bower_asset);
 
     return bower_asset_url($bower_asset);
@@ -124,10 +125,11 @@ class UrlHelper {
    * @return string       URL of the asset
    */
   function bower_stylesheet_url($path) {
-    require_once('wp-admin/includes/file.php');
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
 
     if (!preg_match("/\.js$/", $path)) $path .= ".css";
-    $bower_asset = Wordless::recursive_glob(get_home_path() . 'bower_components', $path)[0];
+    $bower_asset = Wordless::recursive_glob(get_home_path() . '/bower_components', $path);
+    $bower_asset = $bower_asset[0];
     $bower_asset = str_replace(get_home_path(), '', $bower_asset);
 
     return bower_asset_url($bower_asset);
